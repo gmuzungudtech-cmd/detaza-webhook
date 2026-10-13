@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DETAZA & DTASZ Gala Awards Night 2026</title>
-  <!-- Direct static library bundle links to bypass strict tablet rules -->
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <!-- Global script injection for vanilla HTML environments -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body {
       background-color: #020617;
@@ -60,7 +60,7 @@
     .detail-item { padding: 5px; }
     .detail-title { font-size: 10px; color: #f59e0b; font-weight: bold; text-transform: uppercase; margin: 0; }
     .detail-val { font-size: 14px; font-weight: bold; color: #e2e8f0; margin: 3px 0 0 0; }
-    form { padding: 25px; }
+    .form-body { padding: 25px; }
     .section-title { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0; font-weight: bold; }
     .ticket-option {
       display: flex;
@@ -103,7 +103,7 @@
     }
     .dress-title { font-size: 10px; color: #64748b; text-transform: uppercase; margin: 0; font-weight: bold; }
     .dress-val { font-size: 13px; color: #fbbf24; font-weight: bold; margin: 2px 0 0 0; }
-    button {
+    .submit-btn-style {
       background: linear-gradient(to right, #f59e0b, #d97706);
       color: #020617;
       font-weight: 900;
@@ -114,7 +114,7 @@
       cursor: pointer;
       width: 100%;
     }
-    @media (min-width: 480px) { button { width: auto; } }
+    @media (min-width: 480px) { .submit-btn-style { width: auto; } }
     footer { text-align: center; color: #475569; font-size: 10px; font-weight: bold; margin-top: 30px; letter-spacing: 1px; }
 
     /* Custom In-Page Alert Modal Design */
@@ -122,7 +122,7 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.85);
       backdrop-filter: blur(4px);
       justify-content: center;
       align-items: center;
@@ -140,7 +140,7 @@
       box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);
     }
     .modal-box h2 { margin: 0 0 10px 0; color: #fbbf24; font-size: 20px; }
-    .modal-box p { color: #cbd5e1; font-size: 14px; line-height: 1.5; margin: 0 0 20px 0; }
+    .modal-box p { color: #cbd5e1; font-size: 14px; line-height: 1.5; margin: 0 0 20px 0; white-space: pre-line; }
     .modal-close {
       background: #fbbf24;
       color: #020617;
@@ -175,13 +175,14 @@
       </div>
     </div>
 
-    <form id="booking-form">
+    <!-- onsubmit="return false;" prevents browser refreshing on click -->
+    <div class="form-body">
       <p class="section-title">1. Select Ticket Category</p>
       
       <div style="margin-bottom: 25px;">
         <label class="ticket-option">
           <div class="ticket-info">
-            <input type="radio" name="ticket_type" value="1" checked>
+            <input type="radio" name="ticket_type" value="1" checked id="tier-1">
             <p class="ticket-name">Member: Single Seat</p>
           </div>
           <span class="ticket-price">K650</span>
@@ -189,7 +190,7 @@
 
         <label class="ticket-option">
           <div class="ticket-info">
-            <input type="radio" name="ticket_type" value="2">
+            <input type="radio" name="ticket_type" value="2" id="tier-2">
             <p class="ticket-name">Member: Couple Tickets</p>
           </div>
           <span class="ticket-price">K1,200</span>
@@ -197,7 +198,7 @@
 
         <label class="ticket-option">
           <div class="ticket-info">
-            <input type="radio" name="ticket_type" value="3">
+            <input type="radio" name="ticket_type" value="3" id="tier-3">
             <p class="ticket-name">Student Member</p>
           </div>
           <span class="ticket-price">K500</span>
@@ -205,7 +206,7 @@
 
         <label class="ticket-option">
           <div class="ticket-info">
-            <input type="radio" name="ticket_type" value="4">
+            <input type="radio" name="ticket_type" value="4" id="tier-4">
             <p class="ticket-name">Non-Member Single</p>
           </div>
           <span class="ticket-price">K750</span>
@@ -213,7 +214,7 @@
 
         <label class="ticket-option">
           <div class="ticket-info">
-            <input type="radio" name="ticket_type" value="5">
+            <input type="radio" name="ticket_type" value="5" id="tier-5">
             <p class="ticket-name">Corporate Table of 6</p>
           </div>
           <span class="ticket-price">K4,200</span>
@@ -224,17 +225,17 @@
       
       <div class="input-group">
         <label>Full Name</label>
-        <input type="text" name="full_name" placeholder="e.g. Chipo Mwanza" required>
+        <input type="text" id="full_name" placeholder="e.g. Chipo Mwanza">
       </div>
 
       <div class="input-group">
         <label>Email Address</label>
-        <input type="email" name="email" placeholder="chipo@example.com" required>
+        <input type="email" id="email" placeholder="chipo@example.com">
       </div>
 
       <div class="input-group">
         <label>Airtel / MTN Wallet Number</label>
-        <input type="tel" name="phone" placeholder="e.g. 097xxxxxxx" required>
+        <input type="tel" id="phone" placeholder="e.g. 097xxxxxxx">
       </div>
 
       <div class="form-footer">
@@ -242,9 +243,10 @@
           <p class="dress-title">Mandatory Dress Code</p>
           <p class="dress-val">✨ Elegant & Black Tie</p>
         </div>
-        <button type="submit" id="submit-btn">Confirm & Pay Securely</button>
+        <!-- Standard click triggered button component layout -->
+        <button type="button" class="submit-btn-style" id="submit-btn" onclick="executeGalaBooking()">Confirm & Pay Securely</button>
       </div>
-    </form>
+    </div>
   </div>
 
   <!-- Custom Alert Overlay -->
@@ -261,13 +263,12 @@
   </footer>
 
   <script>
-    // ⚠️ CHANNELS INITIALIZATION KEY TARGETS
+    // ⚠️ PLEASE REMEMBER TO REPLACE THE VALUES BELOW WITH YOUR EXACT SECURE CREDS!
     const _supabaseUrl = "https://ylypdfguojkefxkgsjki.supabase.co/rest/v1/";
     const _supabaseAnonKey = "sb_publishable_HigmQWhprRasyn0Wzp8FIw_0XXcLVW5";
     
-    // CDN global fallback initialization context
-    const { createClient } = supabase;
-    const supabaseClient = createClient(_supabaseUrl, _supabaseAnonKey);
+    // UMD bundle client structure assignment mappings
+    const supabaseClient = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
 
     function showModal(title, msg) {
       document.getElementById('modal-title').innerText = title;
@@ -277,26 +278,17 @@
 
     function closeModal() {
       document.getElementById('alert-modal').style.display = 'none';
-      document.getElementById('submit-btn').removeAttribute('disabled');
-      document.getElementById('submit-btn').innerText = 'Confirm & Pay Securely';
+      const btn = document.getElementById('submit-btn');
+      btn.removeAttribute('disabled');
+      btn.innerText = 'Confirm & Pay Securely';
     }
 
-    document.getElementById('booking-form').addEventListener('submit', async (event) => {
-      event.preventDefault();
-      
+    async function executeGalaBooking() {
       const btn = document.getElementById('submit-btn');
-      btn.setAttribute('disabled', 'true');
-      btn.innerText = 'Locking Seats...';
       
-      const formData = new FormData(event.target);
-      const buyerName = formData.get('full_name');
-      const buyerEmail = formData.get('email');
-      const buyerPhone = formData.get('phone');
-      const selectedTierId = parseInt(formData.get('ticket_type'));
-
-      try {
-        const { data: customerData, error: customerErr } = await supabaseClient
-          .from('customers')
-          .insert([{ full_name: buyerName, email: buyerEmail, phone: buyerPhone }])
-          .select().single();
-
+      const buyerName = document.getElementById('full_name').value.trim();
+      const buyerEmail = document.getElementById('email').value.trim();
+      const buyerPhone = document.getElementById('phone').value.trim();
+      
+      if(!buyerName || !buyerEmail || !buyerPhone) {
+         showModal("Missing Fields", "Please complete all buyer input fields before executing registration hold.");
