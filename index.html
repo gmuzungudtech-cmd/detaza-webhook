@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DETAZA & DTASZ Gala Awards Night 2026</title>
-  <script src="https://jsdelivr.net"></script>
+  <!-- Direct static library bundle links to bypass strict tablet rules -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <style>
-    /* Absolute styling safety rules written directly into the file */
     body {
       background-color: #020617;
       color: #f8fafc;
@@ -32,7 +32,7 @@
       background: linear-gradient(135deg, #b45309, #78350f, #451a03);
       padding: 30px;
       text-align: center;
-      border-b: 2px solid #f59e0b;
+      border-bottom: 2px solid #f59e0b;
     }
     .header h1 {
       margin: 10px 0 0 0;
@@ -50,7 +50,7 @@
       background-color: #020617;
       padding: 15px;
       display: grid;
-      grid-template-cols: 1fr;
+      grid-template-columns: 1fr;
       gap: 10px;
       border-bottom: 1px solid #1e293b;
     }
@@ -116,18 +116,50 @@
     }
     @media (min-width: 480px) { button { width: auto; } }
     footer { text-align: center; color: #475569; font-size: 10px; font-weight: bold; margin-top: 30px; letter-spacing: 1px; }
+
+    /* Custom In-Page Alert Modal Design */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 9999;
+    }
+    .modal-box {
+      background: #1e293b;
+      border: 2px solid #fbbf24;
+      border-radius: 20px;
+      max-width: 450px;
+      width: 100%;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);
+    }
+    .modal-box h2 { margin: 0 0 10px 0; color: #fbbf24; font-size: 20px; }
+    .modal-box p { color: #cbd5e1; font-size: 14px; line-height: 1.5; margin: 0 0 20px 0; }
+    .modal-close {
+      background: #fbbf24;
+      color: #020617;
+      border: none;
+      font-weight: bold;
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <!-- Banner Header -->
     <div class="header">
-      <h1 id="main-title">DETAZA & DTASZ Awards</h1>
+      <h1>DETAZA & DTASZ Awards</h1>
       <p>& End of Year Gala Dinner</p>
     </div>
 
-    <!-- Quick Details -->
     <div class="details-grid">
       <div class="detail-item">
         <p class="detail-title">Date of Event</p>
@@ -143,7 +175,6 @@
       </div>
     </div>
 
-    <!-- Main Booking Form -->
     <form id="booking-form">
       <p class="section-title">1. Select Ticket Category</p>
       
@@ -211,9 +242,18 @@
           <p class="dress-title">Mandatory Dress Code</p>
           <p class="dress-val">✨ Elegant & Black Tie</p>
         </div>
-        <button type="submit">Confirm & Pay Securely</button>
+        <button type="submit" id="submit-btn">Confirm & Pay Securely</button>
       </div>
     </form>
+  </div>
+
+  <!-- Custom Alert Overlay -->
+  <div id="alert-modal" class="modal-overlay">
+    <div class="modal-box">
+      <h2 id="modal-title">Notification</h2>
+      <p id="modal-msg"></p>
+      <button class="modal-close" onclick="closeModal()">OK</button>
+    </div>
   </div>
 
   <footer>
@@ -221,14 +261,32 @@
   </footer>
 
   <script>
-    // ⚠️ REPLACE THE TWO STRINGS BELOW WITH YOUR SECURE API DETAILS FROM YOUR SUPABASE TAB
-    const _supabaseUrl ="https://ylypdfguojkefxkgsjki.supabase.co/rest/v1/";
+    // ⚠️ CHANNELS INITIALIZATION KEY TARGETS
+    const _supabaseUrl = "https://ylypdfguojkefxkgsjki.supabase.co/rest/v1/";
     const _supabaseAnonKey = "sb_publishable_HigmQWhprRasyn0Wzp8FIw_0XXcLVW5";
     
-    const supabaseClient = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
+    // CDN global fallback initialization context
+    const { createClient } = supabase;
+    const supabaseClient = createClient(_supabaseUrl, _supabaseAnonKey);
+
+    function showModal(title, msg) {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-msg').innerText = msg;
+      document.getElementById('alert-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('alert-modal').style.display = 'none';
+      document.getElementById('submit-btn').removeAttribute('disabled');
+      document.getElementById('submit-btn').innerText = 'Confirm & Pay Securely';
+    }
 
     document.getElementById('booking-form').addEventListener('submit', async (event) => {
       event.preventDefault();
+      
+      const btn = document.getElementById('submit-btn');
+      btn.setAttribute('disabled', 'true');
+      btn.innerText = 'Locking Seats...';
       
       const formData = new FormData(event.target);
       const buyerName = formData.get('full_name');
@@ -242,26 +300,3 @@
           .insert([{ full_name: buyerName, email: buyerEmail, phone: buyerPhone }])
           .select().single();
 
-        if (customerErr) throw customerErr;
-
-        const { data: bookingResult, error: bookingErr } = await supabaseClient
-          .rpc('reserve_event_tickets_v2', {
-            p_customer_id: customerData.id,
-            p_ticket_type_id: selectedTierId,
-            p_requested_quantity: 1
-          });
-
-        if (bookingErr) throw bookingErr;
-
-        if (bookingResult && bookingResult.success) {
-           alert(`Seats locked securely for 10 minutes!\n\nOrder Reference: DTZ-PURCHASE-${bookingResult.purchase_id}\n\nPlease proceed with your payment confirmation.`);
-        } else {
-           alert(`Inventory holding error: ${bookingResult.message}`);
-        }
-      } catch (error) {
-        alert(`System communication trace error: ${error.message}`);
-      }
-    });
-  </script>
-</body>
-</html>
