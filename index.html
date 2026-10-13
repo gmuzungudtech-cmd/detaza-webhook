@@ -1,143 +1,230 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-950">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DETAZA & DTASZ Gala Awards Night 2026</title>
-  <!-- Cache busting query hooks to force tablet asset reload -->
-  <script src="https://tailwindcss.com"></script>
   <script src="https://jsdelivr.net"></script>
   <style>
-    /* Direct hardware styling backup rule to bypass browser blocks */
-    body { background-color: #020617 !important; color: #f8fafc !important; font-family: ui-sans-serif, system-ui, sans-serif; }
-    input { background-color: #020617 !important; border-color: #1e293b !important; color: #ffffff !important; }
-    input:focus { border-color: #f59e0b !important; }
+    /* Absolute styling safety rules written directly into the file */
+    body {
+      background-color: #020617;
+      color: #f8fafc;
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card {
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 24px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    .header {
+      background: linear-gradient(135deg, #b45309, #78350f, #451a03);
+      padding: 30px;
+      text-align: center;
+      border-b: 2px solid #f59e0b;
+    }
+    .header h1 {
+      margin: 10px 0 0 0;
+      font-size: 24px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ffffff;
+    }
+    .header p {
+      margin: 5px 0 0 0;
+      color: #fef3c7;
+      font-style: italic;
+    }
+    .details-grid {
+      background-color: #020617;
+      padding: 15px;
+      display: grid;
+      grid-template-cols: 1fr;
+      gap: 10px;
+      border-bottom: 1px solid #1e293b;
+    }
+    @media (min-width: 480px) {
+      .details-grid { grid-template-columns: repeat(3, 1fr); text-align: center; }
+    }
+    .detail-item { padding: 5px; }
+    .detail-title { font-size: 10px; color: #f59e0b; font-weight: bold; text-transform: uppercase; margin: 0; }
+    .detail-val { font-size: 14px; font-weight: bold; color: #e2e8f0; margin: 3px 0 0 0; }
+    form { padding: 25px; }
+    .section-title { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0; font-weight: bold; }
+    .ticket-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .ticket-info { display: flex; align-items: center; gap: 12px; }
+    .ticket-name { font-weight: bold; margin: 0; font-size: 15px; color: #f1f5f9; }
+    .ticket-price { font-weight: 900; color: #fbbf24; font-size: 16px; }
+    .input-group { margin-bottom: 15px; }
+    .input-group label { display: block; font-size: 11px; color: #94a3b8; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
+    input[type="text"], input[type="email"], input[type="tel"] {
+      width: 100%;
+      box-sizing: border-box;
+      background-color: #020617;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 12px;
+      color: white;
+      font-size: 14px;
+      outline: none;
+    }
+    input:focus { border-color: #f59e0b; }
+    .form-footer {
+      border-top: 1px solid #1e293b;
+      padding-top: 20px;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    @media (min-width: 480px) {
+      .form-footer { flex-direction: row; justify-content: space-between; align-items: center; }
+    }
+    .dress-title { font-size: 10px; color: #64748b; text-transform: uppercase; margin: 0; font-weight: bold; }
+    .dress-val { font-size: 13px; color: #fbbf24; font-weight: bold; margin: 2px 0 0 0; }
+    button {
+      background: linear-gradient(to right, #f59e0b, #d97706);
+      color: #020617;
+      font-weight: 900;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      width: 100%;
+    }
+    @media (min-width: 480px) { button { width: auto; } }
+    footer { text-align: center; color: #475569; font-size: 10px; font-weight: bold; margin-top: 30px; letter-spacing: 1px; }
   </style>
 </head>
-<body class="h-full text-slate-100 flex flex-col justify-between antialiased selection:bg-amber-500 selection:text-slate-950">
+<body>
 
-  <!-- Core Content Wrapper -->
-  <main class="flex-grow px-4 py-8 md:py-12 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
-    <div class="max-w-2xl mx-auto bg-slate-900/90 rounded-3xl shadow-2xl overflow-hidden border border-slate-800">
-      
-      <!-- Gala Banner Header -->
-      <div class="p-8 bg-gradient-to-br from-amber-700 via-amber-800 to-amber-950 text-center border-b border-amber-500/20 relative">
-        <span class="inline-flex items-center gap-1.5 bg-black/40 text-amber-300 text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full border border-amber-500/20">
-          <span class="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></span> Official Event Portal
-        </span>
-        <h1 class="text-2xl md:text-3xl font-black tracking-tight text-white mt-4 uppercase">DETAZA & DTASZ Recognition Awards</h1>
-        <p class="text-amber-200/90 font-medium text-sm md:text-base mt-1 italic">& End of Year Gala Dinner</p>
-      </div>
-
-      <!-- Quick Details Grid -->
-      <div class="px-6 py-4 bg-slate-950/80 border-b border-slate-800/60 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs md:text-sm text-slate-300">
-        <div class="p-2 bg-slate-900/50 rounded-xl border border-slate-800/40">
-          <p class="text-[10px] text-amber-500 font-bold uppercase tracking-wider">Date of Event</p>
-          <p class="font-extrabold text-slate-200 mt-0.5">Sat, 19th Dec 2026</p>
-        </div>
-        <div class="p-2 bg-slate-900/50 rounded-xl border border-slate-800/40">
-          <p class="text-[10px] text-amber-500 font-bold uppercase tracking-wider">Arrival Time</p>
-          <p class="font-extrabold text-slate-200 mt-0.5">18:30 CAT Prompt</p>
-        </div>
-        <div class="p-2 bg-slate-900/50 rounded-xl border border-slate-800/40">
-          <p class="text-[10px] text-amber-500 font-bold uppercase tracking-wider">Venue Location</p>
-          <p class="font-extrabold text-slate-200 mt-0.5">M'kango Golfview Hotel</p>
-        </div>
-      </div>
-
-      <!-- Main Booking Form -->
-      <form id="booking-form" class="p-6 md:p-8 space-y-6">
-        <div>
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">1. Select Ticket Category</h3>
-            <span class="text-[11px] font-medium text-emerald-400 bg-emerald-950/40 border border-emerald-800/30 px-2.5 py-1 rounded-md">🔒 Live Counter Active</span>
-          </div>
-          
-          <div class="space-y-3">
-            <label class="flex items-center justify-between p-4 bg-slate-950/40 hover:bg-slate-800/40 border border-slate-800 rounded-2xl cursor-pointer transition">
-              <div class="flex items-center space-x-3.5">
-                <input type="radio" name="ticket_type" value="1" checked class="w-4 h-4 text-amber-500 bg-slate-950 border-slate-700">
-                <div><p class="font-bold text-slate-200 text-sm md:text-base">Member: Single Seat</p></div>
-              </div>
-              <span class="font-black text-amber-400 text-base md:text-lg">K650</span>
-            </label>
-
-            <label class="flex items-center justify-between p-4 bg-slate-950/40 hover:bg-slate-800/40 border border-slate-800 rounded-2xl cursor-pointer transition">
-              <div class="flex items-center space-x-3.5">
-                <input type="radio" name="ticket_type" value="2" class="w-4 h-4 text-amber-500 bg-slate-950 border-slate-700">
-                <div><p class="font-bold text-slate-200 text-sm md:text-base">Member: Couple Tickets</p></div>
-              </div>
-              <span class="font-black text-amber-400 text-base md:text-lg">K1,200</span>
-            </label>
-
-            <label class="flex items-center justify-between p-4 bg-slate-950/40 hover:bg-slate-800/40 border border-slate-800 rounded-2xl cursor-pointer transition">
-              <div class="flex items-center space-x-3.5">
-                <input type="radio" name="ticket_type" value="3" class="w-4 h-4 text-amber-500 bg-slate-950 border-slate-700">
-                <div><p class="font-bold text-slate-200 text-sm md:text-base">Student Member</p></div>
-              </div>
-              <span class="font-black text-amber-400 text-base md:text-lg">K500</span>
-            </label>
-
-            <label class="flex items-center justify-between p-4 bg-slate-950/40 hover:bg-slate-800/40 border border-slate-800 rounded-2xl cursor-pointer transition">
-              <div class="flex items-center space-x-3.5">
-                <input type="radio" name="ticket_type" value="4" class="w-4 h-4 text-amber-500 bg-slate-950 border-slate-700">
-                <div><p class="font-bold text-slate-200 text-sm md:text-base">Non-Member: General Admission</p></div>
-              </div>
-              <span class="font-black text-amber-400 text-base md:text-lg">K750</span>
-            </label>
-
-            <label class="flex items-center justify-between p-4 bg-slate-950/40 hover:bg-slate-800/40 border border-slate-800 rounded-2xl cursor-pointer transition">
-              <div class="flex items-center space-x-3.5">
-                <input type="radio" name="ticket_type" value="5" class="w-4 h-4 text-amber-500 bg-slate-950 border-slate-700">
-                <div><p class="font-bold text-slate-200 text-sm md:text-base">Corporate Table of 6</p></div>
-              </div>
-              <span class="font-black text-amber-400 text-base md:text-lg">K4,200</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- BUYER INFO -->
-        <div class="space-y-4 pt-6 border-t border-slate-800/60">
-          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">2. Attendee Profiles</h3>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Full Name</label>
-            <input type="text" name="full_name" placeholder="e.g. Chipo Mwanza" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-100 outline-none focus:border-amber-500 transition">
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Email Address</label>
-              <input type="email" name="email" placeholder="chipo@example.com" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-100 outline-none focus:border-amber-500 transition">
-            </div>
-            <div>
-              <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Wallet Number</label>
-              <input type="tel" name="phone" placeholder="e.g. 097xxxxxxx" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-100 outline-none focus:border-amber-500 transition">
-            </div>
-          </div>
-        </div>
-
-        <div class="pt-6 border-t border-slate-800/60 bg-slate-950/40 -mx-6 md:-mx-8 px-6 md:px-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div class="text-center sm:text-left">
-            <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Mandatory Dress Code</p>
-            <p class="text-xs font-bold text-amber-500 mt-0.5">✨ Elegant & Black Tie (Strictly Formal)</p>
-          </div>
-          <button type="submit" class="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-sm px-8 py-4 rounded-xl shadow-xl shadow-amber-500/10 active:scale-[0.98] transition">
-            Confirm & Pay Securely
-          </button>
-        </div>
-      </form>
+  <div class="card">
+    <!-- Banner Header -->
+    <div class="header">
+      <h1 id="main-title">DETAZA & DTASZ Awards</h1>
+      <p>& End of Year Gala Dinner</p>
     </div>
-  </main>
 
-  <footer class="w-full py-4 text-center bg-slate-950 border-t border-slate-900 text-[10px] font-bold text-slate-600 tracking-wider">
+    <!-- Quick Details -->
+    <div class="details-grid">
+      <div class="detail-item">
+        <p class="detail-title">Date of Event</p>
+        <p class="detail-val">Sat, 19th Dec 2026</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-title">Arrival Time</p>
+        <p class="detail-val">18:30 CAT Prompt</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-title">Venue Location</p>
+        <p class="detail-val">M'kango Golfview</p>
+      </div>
+    </div>
+
+    <!-- Main Booking Form -->
+    <form id="booking-form">
+      <p class="section-title">1. Select Ticket Category</p>
+      
+      <div style="margin-bottom: 25px;">
+        <label class="ticket-option">
+          <div class="ticket-info">
+            <input type="radio" name="ticket_type" value="1" checked>
+            <p class="ticket-name">Member: Single Seat</p>
+          </div>
+          <span class="ticket-price">K650</span>
+        </label>
+
+        <label class="ticket-option">
+          <div class="ticket-info">
+            <input type="radio" name="ticket_type" value="2">
+            <p class="ticket-name">Member: Couple Tickets</p>
+          </div>
+          <span class="ticket-price">K1,200</span>
+        </label>
+
+        <label class="ticket-option">
+          <div class="ticket-info">
+            <input type="radio" name="ticket_type" value="3">
+            <p class="ticket-name">Student Member</p>
+          </div>
+          <span class="ticket-price">K500</span>
+        </label>
+
+        <label class="ticket-option">
+          <div class="ticket-info">
+            <input type="radio" name="ticket_type" value="4">
+            <p class="ticket-name">Non-Member Single</p>
+          </div>
+          <span class="ticket-price">K750</span>
+        </label>
+
+        <label class="ticket-option">
+          <div class="ticket-info">
+            <input type="radio" name="ticket_type" value="5">
+            <p class="ticket-name">Corporate Table of 6</p>
+          </div>
+          <span class="ticket-price">K4,200</span>
+        </label>
+      </div>
+
+      <p class="section-title">2. Attendee Profiles</p>
+      
+      <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" name="full_name" placeholder="e.g. Chipo Mwanza" required>
+      </div>
+
+      <div class="input-group">
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="chipo@example.com" required>
+      </div>
+
+      <div class="input-group">
+        <label>Airtel / MTN Wallet Number</label>
+        <input type="tel" name="phone" placeholder="e.g. 097xxxxxxx" required>
+      </div>
+
+      <div class="form-footer">
+        <div>
+          <p class="dress-title">Mandatory Dress Code</p>
+          <p class="dress-val">✨ Elegant & Black Tie</p>
+        </div>
+        <button type="submit">Confirm & Pay Securely</button>
+      </div>
+    </form>
+  </div>
+
+  <footer>
     POWERED BY DETAZA SECURE TRANSACTION NETWORK © 2026
   </footer>
 
   <script>
-    // ⚠️ CRITICAL STEP: Swap these strings out with your actual keys from your Supabase API settings tab!
-    const _supabaseUrl = "https://ylypdfguojkefxkgsjki.supabase.co/rest/v1/";
+    // ⚠️ REPLACE THE TWO STRINGS BELOW WITH YOUR SECURE API DETAILS FROM YOUR SUPABASE TAB
+    const _supabaseUrl ="https://ylypdfguojkefxkgsjki.supabase.co/rest/v1/";
     const _supabaseAnonKey = "sb_publishable_HigmQWhprRasyn0Wzp8FIw_0XXcLVW5";
     
-    // Initialize connection using standard UMD architecture mapping
     const supabaseClient = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
 
     document.getElementById('booking-form').addEventListener('submit', async (event) => {
@@ -150,7 +237,31 @@
       const selectedTierId = parseInt(formData.get('ticket_type'));
 
       try {
-        // Save Customer row record
         const { data: customerData, error: customerErr } = await supabaseClient
           .from('customers')
+          .insert([{ full_name: buyerName, email: buyerEmail, phone: buyerPhone }])
+          .select().single();
 
+        if (customerErr) throw customerErr;
+
+        const { data: bookingResult, error: bookingErr } = await supabaseClient
+          .rpc('reserve_event_tickets_v2', {
+            p_customer_id: customerData.id,
+            p_ticket_type_id: selectedTierId,
+            p_requested_quantity: 1
+          });
+
+        if (bookingErr) throw bookingErr;
+
+        if (bookingResult && bookingResult.success) {
+           alert(`Seats locked securely for 10 minutes!\n\nOrder Reference: DTZ-PURCHASE-${bookingResult.purchase_id}\n\nPlease proceed with your payment confirmation.`);
+        } else {
+           alert(`Inventory holding error: ${bookingResult.message}`);
+        }
+      } catch (error) {
+        alert(`System communication trace error: ${error.message}`);
+      }
+    });
+  </script>
+</body>
+</html>
