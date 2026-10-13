@@ -9,6 +9,7 @@
 </head>
 <body class="h-full text-slate-100 flex flex-col justify-between antialiased selection:bg-amber-500 selection:text-slate-950">
 
+  <!-- Core Content Wrapper -->
   <main class="flex-grow px-4 py-8 md:py-12 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-950/20 via-slate-950 to-slate-950">
     <div class="max-w-2xl mx-auto bg-slate-900/80 backdrop-blur-md rounded-3xl shadow-2xl overflow-hidden border border-slate-800">
       
@@ -33,7 +34,7 @@
         <div>
           <div class="flex justify-between items-center mb-3">
             <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">1. Select Ticket Category</h3>
-            <span id="live-counter" class="text-[11px] font-medium text-emerald-400 bg-emerald-950/50 border border-emerald-800/30 px-2 py-0.5 rounded-md">🔒 Live Stock System Active</span>
+            <span class="text-[11px] font-medium text-emerald-400 bg-emerald-950/50 border border-emerald-800/30 px-2 py-0.5 rounded-md">🔒 Live Stock System Active</span>
           </div>
           
           <div class="space-y-2.5">
@@ -111,10 +112,16 @@
     </div>
   </main>
 
+  <footer class="w-full py-4 text-center bg-slate-950 border-t border-slate-900 text-[10px] font-medium text-slate-600 tracking-wider">
+    POWERED BY DETAZA SECURE TRANSACTION NETWORK © 2026
+  </footer>
+
   <script>
-    // 1. Paste your exact Supabase URL and PUBLIC Anon Key below
+    // ⚠️ PLEASE REMEMBER TO REPLACE THE TWO STRINGS BELOW WITH YOUR SECURE API DETAILS
     const _supabaseUrl = "https://ylypdfguojkefxkgsjki.supabase.co/rest/v1/";
     const _supabaseAnonKey = "sb_publishable_HigmQWhprRasyn0Wzp8FIw_0XXcLVW5";
+    
+    // Initialize connection engine cleanly
     const supabaseClient = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
 
     document.getElementById('booking-form').addEventListener('submit', async (event) => {
@@ -127,6 +134,7 @@
       const selectedTierId = parseInt(formData.get('ticket_type'));
 
       try {
+        // Log basic information row
         const { data: customerData, error: customerErr } = await supabaseClient
           .from('customers')
           .insert([{ full_name: buyerName, email: buyerEmail, phone: buyerPhone }])
@@ -134,6 +142,7 @@
 
         if (customerErr) throw customerErr;
 
+        // Fire high-speed concurrency locking transaction logic
         const { data: bookingResult, error: bookingErr } = await supabaseClient
           .rpc('reserve_event_tickets_v2', {
             p_customer_id: customerData.id,
@@ -143,13 +152,13 @@
 
         if (bookingErr) throw bookingErr;
 
-        if (bookingResult && bookingResult[0]?.success) {
-           alert(`Seats locked securely! Order Reference: DTZ-PURCHASE-${bookingResult[0].purchase_id}`);
-        } else if (bookingResult && bookingResult[0]) {
-           alert(`Inventory error: ${bookingResult[0].message}`);
+        if (bookingResult && bookingResult.success) {
+           alert(`Seats locked securely! Order Reference: DTZ-PURCHASE-${bookingResult.purchase_id}`);
+        } else {
+           alert(`Inventory error: ${bookingResult.message}`);
         }
       } catch (error) {
-        alert(`System error: ${error.message}`);
+        alert(`System communication trace error: ${error.message}`);
       }
     });
   </script>
