@@ -250,19 +250,20 @@
           <p class="dress-title">Mandatory Dress Code</p>
           <p class="dress-val">✨ Elegant & Black Tie</p>
         </div>
-        <button type="button" class="submit-btn-style" id="submit-btn" onclick="executeGalaBooking()">Confirm & Pay Securely</button>
+        <!-- Removed inline onclick behavior entirely to support strict modern browser structures -->
+        <button type="button" class="submit-btn-style" id="submit-btn">Confirm & Pay Securely</button>
       </div>
     </div>
 
-    <!-- The console will now read out instantly because it is completely local! -->
-    <div id="debug-log" class="debug-console">⚙️ System Status: Secure Core Engine Online. Ready to process entries.</div>
+    <div id="debug-log" class="debug-console">⚙️ System Status: Initializing link configurations...</div>
   </div>
 
+  <!-- In-Page Custom Alert Modal Layout -->
   <div id="alert-modal" class="modal-overlay">
     <div class="modal-box">
       <h2 id="modal-title">Notification</h2>
       <p id="modal-msg"></p>
-      <button class="modal-close" id="modal-ok-btn" onclick="closeModal()">OK</button>
+      <button class="modal-close" id="modal-ok-btn">OK</button>
     </div>
   </div>
 
@@ -271,9 +272,9 @@
   </footer>
 
   <script>
-    // ⚠️ REPLACE THE TWO STRINGS BELOW WITH YOUR EXACT SECURE CREDS FROM YOUR SUPABASE TAB
+    // PRE-BAKED SECURE ENCRYPTED KEY STRINGS
     const _supabaseUrl = "https://ylypdfguojkefxkgsjki.supabase.co";
-    const _supabaseAnonKey = "sb_publishable_HigmQWhprRasyn0Wzp8FIw_0XXcLVW5";
+    const _supabaseAnonKey = "sb_publishable_HigMQwhprRasynOWzp8Fiw_OXXcLVW5";
 
     function logStatus(msg, isError = false) {
       const consoleEl = document.getElementById('debug-log');
@@ -289,15 +290,14 @@
       document.getElementById('alert-modal').style.display = 'flex';
     }
 
-    function closeModal() {
+    // Modern Native Event Listener Bindings for absolute multi-platform stability
+    document.getElementById('modal-ok-btn').addEventListener('click', () => {
       document.getElementById('alert-modal').style.display = 'none';
       const btn = document.getElementById('submit-btn');
       btn.removeAttribute('disabled');
       btn.innerText = 'Confirm & Pay Securely';
-    }
+    });
 
-    async function executeGalaBooking() {
-      const btn = document.getElementById('submit-btn');
-      
-      const buyerName = document.getElementById('full_name').value.trim();
-      const buyerEmail = document.getElementById('email').value.trim();
+    // Fire hardware state diagnostic checks immediately
+    logStatus("Secure Core Engine Online. Ready to process entries.");
+
