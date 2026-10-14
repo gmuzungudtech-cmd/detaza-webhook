@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DETAZA & DTASZ Gala Awards Night 2026</title>
-  <!-- Universal, global browser script bundle -->
+  <!-- Direct Script Injection -->
   <script src="https://jsdelivr.net"></script>
   <style>
     body {
@@ -151,7 +151,6 @@
       cursor: pointer;
     }
 
-    /* Console Output Area at Bottom */
     .debug-console {
       background-color: #020617;
       border-top: 1px solid #1e293b;
@@ -253,20 +252,18 @@
           <p class="dress-title">Mandatory Dress Code</p>
           <p class="dress-val">✨ Elegant & Black Tie</p>
         </div>
-        <button type="button" class="submit-btn-style" id="submit-btn" onclick="executeGalaBooking()">Confirm & Pay Securely</button>
+        <button type="button" class="submit-btn-style" id="submit-btn">Confirm & Pay Securely</button>
       </div>
     </div>
 
-    <!-- Live Console Output Area -->
     <div id="debug-log" class="debug-console">⚙️ System Status: Standing by...</div>
   </div>
 
-  <!-- Custom Alert Overlay -->
   <div id="alert-modal" class="modal-overlay">
     <div class="modal-box">
       <h2 id="modal-title">Notification</h2>
       <p id="modal-msg"></p>
-      <button class="modal-close" id="modal-ok-btn" onclick="closeModal()">OK</button>
+      <button class="modal-close" id="modal-ok-btn">OK</button>
     </div>
   </div>
 
@@ -289,14 +286,20 @@
       }
     }
 
-    // Force absolute window level object check wrapper
-    window.addEventListener('load', function() {
-      try {
-        const supabaseLib = window.supabase || window['supabase'];
-        if (!supabaseLib) {
-          logStatus("Critical: Supabase library object missing from window context.", true);
-        } else {
-          supabaseClient = supabaseLib.createClient(_supabaseUrl, _supabaseAnonKey);
-          logStatus("System status: Connected to Supabase backend securely. Ready for orders.");
-        }
-      } catch(e) {
+    function showModal(title, msg) {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-msg').innerText = msg;
+      document.getElementById('alert-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('alert-modal').style.display = 'none';
+      const btn = document.getElementById('submit-btn');
+      btn.removeAttribute('disabled');
+      btn.innerText = 'Confirm & Pay Securely';
+    }
+
+    // DIRECT ANCHORED IMMEDIATE RUN ENGINE (Bypasses Window Load Barriers)
+    try {
+      const supabaseLib = window.supabase || window['supabase'];
+      if (!supabaseLib) {
