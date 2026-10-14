@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DETAZA & DTASZ Gala Awards Night 2026</title>
+  <!-- Direct UMD Bundle Script - Bypasses module parsing rules on tablets -->
+  <script src="https://jsdelivr.net"></script>
   <style>
     body {
       background-color: #020617;
@@ -148,6 +150,17 @@
       border-radius: 8px;
       cursor: pointer;
     }
+
+    /* Live Status Tracker Console at the Bottom */
+    .debug-console {
+      background-color: #020617;
+      border-top: 1px solid #1e293b;
+      padding: 15px;
+      font-family: monospace;
+      font-size: 11px;
+      color: #38bdf8;
+      word-break: break-all;
+    }
   </style>
 </head>
 <body>
@@ -173,7 +186,6 @@
       </div>
     </div>
 
-    <!-- Strictly using clean layout containers—NO browser-refreshing <form> tags -->
     <div class="form-body">
       <p class="section-title">1. Select Ticket Category</p>
       
@@ -241,9 +253,12 @@
           <p class="dress-title">Mandatory Dress Code</p>
           <p class="dress-val">✨ Elegant & Black Tie</p>
         </div>
-        <button type="button" class="submit-btn-style" id="submit-btn">Confirm & Pay Securely</button>
+        <button type="button" class="submit-btn-style" id="submit-btn" onclick="executeGalaBooking()">Confirm & Pay Securely</button>
       </div>
     </div>
+
+    <!-- Live Console Output Area -->
+    <div id="debug-log" class="debug-console">⚙️ System Status: Standing by. Waiting for inputs...</div>
   </div>
 
   <!-- Custom Alert Overlay -->
@@ -251,7 +266,7 @@
     <div class="modal-box">
       <h2 id="modal-title">Notification</h2>
       <p id="modal-msg"></p>
-      <button class="modal-close" id="modal-ok-btn">OK</button>
+      <button class="modal-close" id="modal-ok-btn" onclick="closeModal()">OK</button>
     </div>
   </div>
 
@@ -259,38 +274,29 @@
     POWERED BY DETAZA SECURE TRANSACTION NETWORK © 2026
   </footer>
 
-  <script type="module">
-    import { createClient } from 'https://jsdelivr.net';
-
-    // IMPORTANT: Make sure to replace these exact strings below with your keys from your Supabase tab!
+  <script>
+    // ⚠️ REPLACE THE TWO STRINGS BELOW WITH YOUR SECURE API DETAILS FROM YOUR SUPABASE TAB
     const _supabaseUrl = "https://ylypdfguojkefxkgsjki.supabase.co/rest/v1/";
-    const _supabaseAnonKey = "sb_publishable_HigmQWhprRasyn0Wzp8FIw_0XXcLVW5";
+    const _supabaseAnonKey = ";sb_publishable_HigmQWhprRasyn0Wzp8FIw_0XXcLVW5";
     
-    const supabaseClient = createClient(_supabaseUrl, _supabaseAnonKey);
+    let supabaseClient = null;
 
-    function showModal(title, msg) {
-      document.getElementById('modal-title').innerText = title;
-      document.getElementById('modal-msg').innerText = msg;
-      document.getElementById('alert-modal').style.display = 'flex';
+    function logStatus(msg, isError = false) {
+      const consoleEl = document.getElementById('debug-log');
+      consoleEl.innerText = "⚙️ Log: " + msg;
+      consoleEl.style.color = isError ? "#f87171" : "#38bdf8";
     }
 
-    document.getElementById('modal-ok-btn').addEventListener('click', () => {
-      document.getElementById('alert-modal').style.display = 'none';
-      const btn = document.getElementById('submit-btn');
-      btn.removeAttribute('disabled');
-      btn.innerText = 'Confirm & Pay Securely';
-    });
-
-    document.getElementById('submit-btn').addEventListener('click', async () => {
-      const btn = document.getElementById('submit-btn');
-      
-      const buyerName = document.getElementById('full_name').value.trim();
-      const buyerEmail = document.getElementById('email').value.trim();
-      const buyerPhone = document.getElementById('phone').value.trim();
-      
-      if(!buyerName || !buyerEmail || !buyerPhone) {
-         showModal("Missing Fields", "Please complete all fields before confirming booking hold.");
-         return;
+    // Wrap initialization to catch explicit load problems
+    try {
+      if (typeof supabase === 'undefined') {
+        logStatus("Critical: Supabase library failed to load from CDN. Check internet connection.", true);
+      } else {
+        supabaseClient = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
+        logStatus("System status: Database connection online. Ready to accept orders.");
       }
+    } catch(e) {
+      logStatus("Init Error: " + e.message, true);
+    }
 
-      btn.setAttribute('disabled', 'true');
+    function showModal(title, msg) {
