@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DETAZA & DTASZ Gala Awards Night 2026</title>
-  <!-- Global script injection for vanilla HTML environments -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     body {
       background-color: #020617;
@@ -175,7 +173,7 @@
       </div>
     </div>
 
-    <!-- onsubmit="return false;" prevents browser refreshing on click -->
+    <!-- Strictly using clean layout containers—NO browser-refreshing <form> tags -->
     <div class="form-body">
       <p class="section-title">1. Select Ticket Category</p>
       
@@ -243,8 +241,7 @@
           <p class="dress-title">Mandatory Dress Code</p>
           <p class="dress-val">✨ Elegant & Black Tie</p>
         </div>
-        <!-- Standard click triggered button component layout -->
-        <button type="button" class="submit-btn-style" id="submit-btn" onclick="executeGalaBooking()">Confirm & Pay Securely</button>
+        <button type="button" class="submit-btn-style" id="submit-btn">Confirm & Pay Securely</button>
       </div>
     </div>
   </div>
@@ -254,7 +251,7 @@
     <div class="modal-box">
       <h2 id="modal-title">Notification</h2>
       <p id="modal-msg"></p>
-      <button class="modal-close" onclick="closeModal()">OK</button>
+      <button class="modal-close" id="modal-ok-btn">OK</button>
     </div>
   </div>
 
@@ -262,13 +259,14 @@
     POWERED BY DETAZA SECURE TRANSACTION NETWORK © 2026
   </footer>
 
-  <script>
-    // ⚠️ PLEASE REMEMBER TO REPLACE THE VALUES BELOW WITH YOUR EXACT SECURE CREDS!
+  <script type="module">
+    import { createClient } from 'https://jsdelivr.net';
+
+    // IMPORTANT: Make sure to replace these exact strings below with your keys from your Supabase tab!
     const _supabaseUrl = "https://ylypdfguojkefxkgsjki.supabase.co/rest/v1/";
     const _supabaseAnonKey = "sb_publishable_HigmQWhprRasyn0Wzp8FIw_0XXcLVW5";
     
-    // UMD bundle client structure assignment mappings
-    const supabaseClient = supabase.createClient(_supabaseUrl, _supabaseAnonKey);
+    const supabaseClient = createClient(_supabaseUrl, _supabaseAnonKey);
 
     function showModal(title, msg) {
       document.getElementById('modal-title').innerText = title;
@@ -276,14 +274,14 @@
       document.getElementById('alert-modal').style.display = 'flex';
     }
 
-    function closeModal() {
+    document.getElementById('modal-ok-btn').addEventListener('click', () => {
       document.getElementById('alert-modal').style.display = 'none';
       const btn = document.getElementById('submit-btn');
       btn.removeAttribute('disabled');
       btn.innerText = 'Confirm & Pay Securely';
-    }
+    });
 
-    async function executeGalaBooking() {
+    document.getElementById('submit-btn').addEventListener('click', async () => {
       const btn = document.getElementById('submit-btn');
       
       const buyerName = document.getElementById('full_name').value.trim();
@@ -291,4 +289,8 @@
       const buyerPhone = document.getElementById('phone').value.trim();
       
       if(!buyerName || !buyerEmail || !buyerPhone) {
-         showModal("Missing Fields", "Please complete all buyer input fields before executing registration hold.");
+         showModal("Missing Fields", "Please complete all fields before confirming booking hold.");
+         return;
+      }
+
+      btn.setAttribute('disabled', 'true');
