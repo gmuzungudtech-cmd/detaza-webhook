@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DETAZA & DTASZ Gala Awards Night 2026</title>
+  <!-- Direct UMD Script - Works beautifully without module barriers -->
+  <script src="https://jsdelivr.net"></script>
   <style>
     body {
       background-color: #020617;
@@ -69,6 +71,7 @@
       border: 1px solid #334155;
       border-radius: 12px;
       margin-bottom: 10px;
+      cursor: pointer;
     }
     .ticket-info { display: flex; align-items: center; gap: 12px; }
     .ticket-name { font-weight: bold; margin: 0; font-size: 15px; color: #f1f5f9; }
@@ -100,25 +103,55 @@
     }
     .dress-title { font-size: 10px; color: #64748b; text-transform: uppercase; margin: 0; font-weight: bold; }
     .dress-val { font-size: 13px; color: #fbbf24; font-weight: bold; margin: 2px 0 0 0; }
-    
-    /* Decoupled Link Button Architecture Style */
-    .action-link {
-      display: block;
-      text-align: center;
-      box-sizing: border-box;
+    .submit-btn-style {
       background: linear-gradient(to right, #f59e0b, #d97706);
-      color: #020617 !important;
+      color: #020617;
       font-weight: 900;
-      text-decoration: none !important;
+      border: none;
       padding: 14px 28px;
       border-radius: 10px;
       font-size: 14px;
+      cursor: pointer;
       width: 100%;
     }
-    @media (min-width: 480px) { .action-link { width: auto; } }
+    @media (min-width: 480px) { .submit-btn-style { width: auto; } }
     footer { text-align: center; color: #475569; font-size: 10px; font-weight: bold; margin-top: 30px; letter-spacing: 1px; }
 
-    .status-box {
+    /* Custom In-Page Alert Modal Design */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 9999;
+    }
+    .modal-box {
+      background: #1e293b;
+      border: 2px solid #fbbf24;
+      border-radius: 20px;
+      max-width: 450px;
+      width: 100%;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);
+    }
+    .modal-box h2 { margin: 0 0 10px 0; color: #fbbf24; font-size: 20px; }
+    .modal-box p { color: #cbd5e1; font-size: 14px; line-height: 1.5; margin: 0 0 20px 0; white-space: pre-line; }
+    .modal-close {
+      background: #fbbf24;
+      color: #020617;
+      border: none;
+      font-weight: bold;
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .debug-console {
       background-color: #020617;
       border-top: 1px solid #1e293b;
       padding: 15px;
@@ -158,7 +191,7 @@
       <div style="margin-bottom: 25px;">
         <label class="ticket-option">
           <div class="ticket-info">
-            <input type="radio" name="ticket_tier" value="Member Single" checked id="t1">
+            <input type="radio" name="ticket_type" value="1" checked id="tier-1">
             <p class="ticket-name">Member: Single Seat</p>
           </div>
           <span class="ticket-price">K650</span>
@@ -166,7 +199,7 @@
 
         <label class="ticket-option">
           <div class="ticket-info">
-            <input type="radio" name="ticket_tier" value="Member Couple" id="t2">
+            <input type="radio" name="ticket_type" value="2" id="tier-2">
             <p class="ticket-name">Member: Couple Tickets</p>
           </div>
           <span class="ticket-price">K1,200</span>
@@ -174,7 +207,7 @@
 
         <label class="ticket-option">
           <div class="ticket-info">
-            <input type="radio" name="ticket_tier" value="Student Member" id="t3">
+            <input type="radio" name="ticket_type" value="3" id="tier-3">
             <p class="ticket-name">Student Member</p>
           </div>
           <span class="ticket-price">K500</span>
@@ -182,7 +215,7 @@
 
         <label class="ticket-option">
           <div class="ticket-info">
-            <input type="radio" name="ticket_tier" value="Non-Member Single" id="t4">
+            <input type="radio" name="ticket_type" value="4" id="tier-4">
             <p class="ticket-name">Non-Member Single</p>
           </div>
           <span class="ticket-price">K750</span>
@@ -190,7 +223,7 @@
 
         <label class="ticket-option">
           <div class="ticket-info">
-            <input type="radio" name="ticket_tier" value="Corporate Table" id="t5">
+            <input type="radio" name="ticket_type" value="5" id="tier-5">
             <p class="ticket-name">Corporate Table of 6</p>
           </div>
           <span class="ticket-price">K4,200</span>
@@ -201,17 +234,17 @@
       
       <div class="input-group">
         <label>Full Name</label>
-        <input type="text" id="full_name" placeholder="e.g. Chipo Mwanza" oninput="updateLink()">
+        <input type="text" id="full_name" placeholder="e.g. Chipo Mwanza">
       </div>
 
       <div class="input-group">
         <label>Email Address</label>
-        <input type="email" id="email" placeholder="chipo@example.com" oninput="updateLink()">
+        <input type="email" id="email" placeholder="chipo@example.com">
       </div>
 
       <div class="input-group">
         <label>Airtel / MTN Wallet Number</label>
-        <input type="tel" id="phone" placeholder="e.g. 097xxxxxxx" oninput="updateLink()">
+        <input type="tel" id="phone" placeholder="e.g. 097xxxxxxx">
       </div>
 
       <div class="form-footer">
@@ -219,61 +252,53 @@
           <p class="dress-title">Mandatory Dress Code</p>
           <p class="dress-val">✨ Elegant & Black Tie</p>
         </div>
-        <!-- Decoupled Hyperlink Trigger - Completely immune to browser cache script freezes -->
-        <a href="#" id="submit-link" class="action-link" onclick="checkFields(event)">Confirm & Pay Securely</a>
+        <!-- Native JavaScript click event — completely unblockable -->
+        <button type="button" class="submit-btn-style" id="submit-btn" onclick="executeGalaBooking()">Confirm & Pay Securely</button>
       </div>
     </div>
 
-    <div class="status-box">✨ Secure Live Portal Core Engine Active</div>
+    <div id="debug-log" class="debug-console">⚙️ System Status: Initializing connection...</div>
+  </div>
+
+  <!-- In-Page Custom Alert Modal Layout -->
+  <div id="alert-modal" class="modal-overlay">
+    <div class="modal-box">
+      <h2 id="modal-title">Notification</h2>
+      <p id="modal-msg"></p>
+      <button class="modal-close" id="modal-ok-btn" onclick="closeModal()">OK</button>
+    </div>
   </div>
 
   <footer>
-    POWERED BY DETAZA SEC TRANSACTION NETWORK © 2026
+    POWERED BY DETAZA SECURE TRANSACTION NETWORK © 2026
   </footer>
 
   <script>
     // ⚠️ INJECT YOUR EXACT SUPABASE API LINK CORES HERE
     const _supabaseUrl = "https://ylypdfguojkefxkgsjki.supabase.co/rest/v1/";
     const _supabaseAnonKey = "sb_publishable_HigmQWhprRasyn0Wzp8FIw_0XXcLVW5";
+    
+    let supabaseClient = null;
 
-    function updateLink() {
-      const name = encodeURIComponent(document.getElementById('full_name').value.trim());
-      const email = encodeURIComponent(document.getElementById('email').value.trim());
-      const phone = encodeURIComponent(document.getElementById('phone').value.trim());
-      
-      let tier = "Member Single";
-      if(document.getElementById('t2').checked) tier = "Member Couple";
-      if(document.getElementById('t3').checked) tier = "Student Member";
-      if(document.getElementById('t4').checked) tier = "Non-Member Single";
-      if(document.getElementById('t5').checked) tier = "Corporate Table";
-
-      // Direct execution bridge URL mapping parameters
-      const fallbackUrl = "https://github.io" + name + "&email=" + email + "&phone=" + phone + "&tier=" + encodeURIComponent(tier);
-      document.getElementById('submit-link').href = fallbackUrl;
-    }
-
-    // Connect event listeners to the radio selectors dynamically
-    document.querySelectorAll('input[type="radio"]').forEach(radio => {
-      radio.addEventListener('change', updateLink);
-    });
-
-    function checkFields(e) {
-      const name = document.getElementById('full_name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      if(!name || !email || !phone) {
-        e.preventDefault();
-        alert("Please complete all profile input text boxes before executing payment hold.");
+    function logStatus(msg, isError = false) {
+      const consoleEl = document.getElementById('debug-log');
+      if (consoleEl) {
+        consoleEl.innerText = "⚙️ Log: " + msg;
+        consoleEl.style.color = isError ? "#f87171" : "#38bdf8";
       }
     }
 
-    // Process parameters directly on layout initialization context strings
-    window.addEventListener('DOMContentLoaded', () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      if(urlParams.get('submit') === 'true') {
-         alert("✨ Ticket Request Forwarded Successfully!\n\nOrder processing verification token created.\n\nPlease check your Supabase spreadsheet row grid for validation.");
+    // Direct initialization block
+    try {
+      const supabaseLib = window.supabase || window['supabase'];
+      if (!supabaseLib) {
+        logStatus("Critical Error: Supabase script library object missing.", true);
+      } else {
+        supabaseClient = supabaseLib.createClient(_supabaseUrl, _supabaseAnonKey);
+        logStatus("Connected to Supabase backend securely. Ready for orders.");
       }
-    });
-  </script>
-</body>
-</html>
+    } catch(e) {
+      logStatus("Initialization Exception: " + e.message, true);
+    }
+
+    function showModal(title, msg) {
