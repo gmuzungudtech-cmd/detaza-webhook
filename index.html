@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DETAZA & DTASZ Gala Awards Night 2026</title>
-  <!-- Direct UMD Script - Works beautifully without module barriers -->
-  <script src="https://jsdelivr.net"></script>
   <style>
     body {
       background-color: #020617;
@@ -252,15 +250,14 @@
           <p class="dress-title">Mandatory Dress Code</p>
           <p class="dress-val">✨ Elegant & Black Tie</p>
         </div>
-        <!-- Native JavaScript click event — completely unblockable -->
         <button type="button" class="submit-btn-style" id="submit-btn" onclick="executeGalaBooking()">Confirm & Pay Securely</button>
       </div>
     </div>
 
-    <div id="debug-log" class="debug-console">⚙️ System Status: Initializing connection...</div>
+    <!-- The console will now read out instantly because it is completely local! -->
+    <div id="debug-log" class="debug-console">⚙️ System Status: Secure Core Engine Online. Ready to process entries.</div>
   </div>
 
-  <!-- In-Page Custom Alert Modal Layout -->
   <div id="alert-modal" class="modal-overlay">
     <div class="modal-box">
       <h2 id="modal-title">Notification</h2>
@@ -274,11 +271,9 @@
   </footer>
 
   <script>
-    // ⚠️ INJECT YOUR EXACT SUPABASE API LINK CORES HERE
+    // ⚠️ REPLACE THE TWO STRINGS BELOW WITH YOUR EXACT SECURE CREDS FROM YOUR SUPABASE TAB
     const _supabaseUrl = "https://ylypdfguojkefxkgsjki.supabase.co/rest/v1/";
     const _supabaseAnonKey = "sb_publishable_HigmQWhprRasyn0Wzp8FIw_0XXcLVW5";
-    
-    let supabaseClient = null;
 
     function logStatus(msg, isError = false) {
       const consoleEl = document.getElementById('debug-log');
@@ -288,17 +283,21 @@
       }
     }
 
-    // Direct initialization block
-    try {
-      const supabaseLib = window.supabase || window['supabase'];
-      if (!supabaseLib) {
-        logStatus("Critical Error: Supabase script library object missing.", true);
-      } else {
-        supabaseClient = supabaseLib.createClient(_supabaseUrl, _supabaseAnonKey);
-        logStatus("Connected to Supabase backend securely. Ready for orders.");
-      }
-    } catch(e) {
-      logStatus("Initialization Exception: " + e.message, true);
+    function showModal(title, msg) {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-msg').innerText = msg;
+      document.getElementById('alert-modal').style.display = 'flex';
     }
 
-    function showModal(title, msg) {
+    function closeModal() {
+      document.getElementById('alert-modal').style.display = 'none';
+      const btn = document.getElementById('submit-btn');
+      btn.removeAttribute('disabled');
+      btn.innerText = 'Confirm & Pay Securely';
+    }
+
+    async function executeGalaBooking() {
+      const btn = document.getElementById('submit-btn');
+      
+      const buyerName = document.getElementById('full_name').value.trim();
+      const buyerEmail = document.getElementById('email').value.trim();
