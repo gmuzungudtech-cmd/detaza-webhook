@@ -1,62 +1,305 @@
-  <!-- 1. Load the official Supabase Client Library -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DETAZA & DTASZ Gala Awards Night 2026</title>
+  <style>
+    body {
+      background-color: #020617;
+      color: #f8fafc;
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card {
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 24px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    .header {
+      background: linear-gradient(135deg, #b45309, #78350f, #451a03);
+      padding: 30px;
+      text-align: center;
+      border-bottom: 2px solid #f59e0b;
+    }
+    .header h1 {
+      margin: 10px 0 0 0;
+      font-size: 24px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ffffff;
+    }
+    .header p {
+      margin: 5px 0 0 0;
+      color: #fef3c7;
+      font-style: italic;
+    }
+    .details-grid {
+      background-color: #020617;
+      padding: 15px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      border-bottom: 1px solid #1e293b;
+    }
+    @media (min-width: 480px) {
+      .details-grid { grid-template-columns: repeat(3, 1fr); text-align: center; }
+    }
+    .detail-item { padding: 5px; }
+    .detail-title { font-size: 10px; color: #f59e0b; font-weight: bold; text-transform: uppercase; margin: 0; }
+    .detail-val { font-size: 14px; font-weight: bold; color: #e2e8f0; margin: 3px 0 0 0; }
+    .form-body { padding: 25px; }
+    .section-title { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 15px 0; font-weight: bold; }
+    .ticket-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .ticket-info { display: flex; align-items: center; gap: 12px; }
+    .ticket-name { font-weight: bold; margin: 0; font-size: 15px; color: #f1f5f9; }
+    .ticket-price { font-weight: 900; color: #fbbf24; font-size: 16px; }
+    .input-group { margin-bottom: 15px; }
+    .input-group label { display: block; font-size: 11px; color: #94a3b8; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; }
+    
+    input[type="text"], input[type="email"], input[type="tel"] {
+      width: 100%;
+      box-sizing: border-box;
+      background-color: #020617 !important;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 12px;
+      color: #ffffff !important;
+      font-size: 14px;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #020617 inset !important;
+      -webkit-text-fill-color: #ffffff !important;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+    
+    input:focus { border-color: #f59e0b; }
+    .form-footer {
+      border-top: 1px solid #1e293b;
+      padding-top: 20px;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    @media (min-width: 480px) {
+      .form-footer { flex-direction: row; justify-content: space-between; align-items: center; }
+    }
+    .dress-title { font-size: 10px; color: #64748b; text-transform: uppercase; margin: 0; font-weight: bold; }
+    .dress-val { font-size: 13px; color: #fbbf24; font-weight: bold; margin: 2px 0 0 0; }
+    
+    .submit-btn-style {
+      background: linear-gradient(to right, #f59e0b, #d97706);
+      color: #020617;
+      font-weight: 900;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      width: 100%;
+    }
+    @media (min-width: 480px) { .submit-btn-style { width: auto; } }
+    footer { text-align: center; color: #475569; font-size: 10px; font-weight: bold; margin-top: 30px; letter-spacing: 1px; }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 9999;
+    }
+    .modal-box {
+      background: #1e293b;
+      border: 2px solid #fbbf24;
+      border-radius: 20px;
+      max-width: 450px;
+      width: 100%;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);
+    }
+    .modal-box h2 { margin: 0 0 10px 0; color: #fbbf24; font-size: 20px; }
+    .modal-box p { color: #cbd5e1; font-size: 14px; line-height: 1.5; margin: 0 0 20px 0; white-space: pre-line; }
+    .modal-close {
+      background: #fbbf24;
+      color: #020617;
+      border: none;
+      font-weight: bold;
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .debug-console {
+      background-color: #020617;
+      border-top: 1px solid #1e293b;
+      padding: 15px;
+      font-family: monospace;
+      font-size: 11px;
+      color: #38bdf8;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="header">
+      <h1>DETAZA & DTASZ Awards</h1>
+      <p>& End of Year Gala Dinner</p>
+    </div>
+
+    <div class="details-grid">
+      <div class="detail-item">
+        <p class="detail-title">Date of Event</p>
+        <p class="detail-val">Sat, 19th Dec 2026</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-title">Arrival Time</p>
+        <p class="detail-val">18:30 CAT Prompt</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-title">Venue Location</p>
+        <p class="detail-val">M'kango Golfview</p>
+      </div>
+    </div>
+
+    <div class="form-body">
+      <p class="section-title">1. Select Ticket Category</p>
+      
+      <div style="margin-bottom: 25px;">
+        <label class="ticket-option">
+          <div class="ticket-info">
+            <input type="radio" name="ticket_type" value="1" checked id="tier-1">
+            <p class="ticket-name">Member: Single Seat</p>
+          </div>
+          <span class="ticket-price">K650</span>
+        </label>
+
+        <label class="ticket-option">
+          <div class="ticket-info">
+            <input type="radio" name="ticket_type" value="2" id="tier-2">
+            <p class="ticket-name">Member: Couple Tickets</p>
+          </div>
+          <span class="ticket-price">K1,200</span>
+        </label>
+
+        <label class="ticket-option">
+          <div class="ticket-info">
+            <input type="radio" name="ticket_type" value="3" id="tier-3">
+            <p class="ticket-name">Student Member</p>
+          </div>
+          <span class="ticket-price">K500</span>
+        </label>
+
+        <label class="ticket-option">
+          <div class="ticket-info">
+            <input type="radio" name="ticket_type" value="4" id="tier-4">
+            <p class="ticket-name">Non-Member Single</p>
+          </div>
+          <span class="ticket-price">K750</span>
+        </label>
+
+        <label class="ticket-option">
+          <div class="ticket-info">
+            <input type="radio" name="ticket_type" value="5" id="tier-5">
+            <p class="ticket-name">Corporate Table of 6</p>
+          </div>
+          <span class="ticket-price">K4,200</span>
+        </label>
+      </div>
+
+      <p class="section-title">2. Attendee Profiles</p>
+      
+      <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" id="full_name" placeholder="e.g. Chipo Mwanza">
+      </div>
+
+      <div class="input-group">
+        <label>Email Address</label>
+        <input type="email" id="email" placeholder="chipo@example.com">
+      </div>
+
+      <div class="input-group">
+        <label>Airtel / MTN Wallet Number</label>
+        <input type="tel" id="phone" placeholder="e.g. 097xxxxxxx">
+      </div>
+
+      <div class="form-footer">
+        <div>
+          <p class="dress-title">Mandatory Dress Code</p>
+          <p class="dress-val">✨ Elegant & Black Tie</p>
+        </div>
+        <button class="submit-btn-style" id="submit-btn">Confirm & Pay Securely</button>
+      </div>
+    </div>
+    
+    <div class="debug-console" id="status-display">
+      ⚙️ System Status: Ready
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="custom-modal">
+    <div class="modal-box">
+      <h2 id="modal-title">Notification</h2>
+      <p id="modal-message">Message text goes here.</p>
+      <button class="modal-close" onclick="closeModal()">Dismiss</button>
+    </div>
+  </div>
+
+  <footer>POWERED BY DETAZA SECURE TRANSACTION NETWORK &copy; 2026</footer>
+
+  <!-- Supabase Integration Client Engine Library -->
   <script src="https://jsdelivr.net"></script>
 
   <script>
-    // 2. Insert the credentials you copied in Step 1
-    const SUPABASE_URL = 'https://aoswhbdblfljhkninzra.supabase.co';
+    // Replace with your real Project URL and Anon Public Key from your Supabase API settings page
+    const SUPABASE_URL = 'https://aoswhbdblfljhkninzra.supabase.co'; 
     const SUPABASE_ANON_KEY = 'sb_publishable_Q4AVBpJnjfJF-5s-8FLpCg_6Qdx70Ve';
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // 3. Attach a live click click event handler to your payment button
     document.getElementById('submit-btn').addEventListener('click', async (e) => {
-      e.preventDefault(); // Stop the page from refreshing automatically
+      e.preventDefault();
       
       const statusDisplay = document.getElementById('status-display');
       const modal = document.getElementById('custom-modal');
       
-      // Collect values typed into the registration form fields
       const fullName = document.getElementById('full_name').value.trim();
       const email = document.getElementById('email').value.trim();
       const phone = document.getElementById('phone').value.trim();
 
-      // Basic local validation check before talking to the server
       if (!fullName || !email || !phone) {
-        alert("Please complete your profile details (Name, Email, and Phone Number) before confirming.");
-        return;
-      }
-
-      try {
-        statusDisplay.innerText = "⚙️ System Status: Submitting attendee profile data securely...";
-        
-        // 4. Insert data directly into your 'customers' database table
-        const { data, error } = await supabase
-          .from('customers')
-          .insert([
-            { 
-              full_name: fullName, 
-              email: email, 
-              phone: phone 
-            }
-          ])
-          .select(); // Returns the created user profile row along with its new ID
-
-        if (error) throw error;
-
-        // 5. Notify the attendee that their profile registration went through successfully!
-        document.getElementById('modal-title').innerText = "Registration Logged Successfully";
-        document.getElementById('modal-message').innerText = `Thank you ${fullName}!\nYour profile has been saved to the attendee system.\n\nWe are initializing your ticket creation details now.`;
-        modal.style.display = 'flex';
-        statusDisplay.innerText = "⚙️ System Status: Attendee logged successfully!";
-
-      } catch (err) {
-        console.error("Database connection failure details:", err);
-        statusDisplay.innerText = "⚙️ System Status: Execution Error.";
-        alert("Could not register profile: " + err.message);
-      }
-    });
-
-    function closeModal() {
-      document.getElementById('custom-modal').style.display = 'none';
-    }
-  </script>
-</body>
