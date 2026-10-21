@@ -282,13 +282,12 @@
 
   <footer>POWERED BY DETAZA SECURE TRANSACTION NETWORK &copy; 2026</footer>
 
-  <!-- Supabase Integration Client Engine Library -->
-  <script src="https://jsdelivr.net"></script>
+  <!-- Fixed Supabase Client Engine Library (Bypassing jsdelivr CDN blocker) -->
+  <script src="https://unpkg.com"></script>
 
   <script>
-    // Replace with your real Project URL and Anon Public Key from your Supabase API settings page
     const SUPABASE_URL = 'https://aoswhbdblfljhkninzra.supabase.co'; 
-    const SUPABASE_ANON_KEY = 'sb_publishable_Q4AVBpJnjfJF-5s-8FLpCg_6Qdx70Ve';
+    const SUPABASE_ANON_KEY = 'sb_publishable_Q4AVBpJnjfJF-5s-8FLpCg_6Qdx70Ve'; 
     
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -303,3 +302,8 @@
       const phone = document.getElementById('phone').value.trim();
 
       if (!fullName || !email || !phone) {
+        alert("Please complete your profile details before confirming.");
+        return;
+      }
+
+      try {
